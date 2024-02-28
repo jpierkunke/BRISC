@@ -529,6 +529,7 @@ extern "C" {
                            SEXP sType_r, SEXP nThreads_r, SEXP verbose_r, SEXP eps_r, SEXP fix_nugget_r){
 
         int i, k, l, nProtect=0;
+        printf("\nStartOfBRISC_estimatecpp\n");
 
         //get args
         y_nngp = REAL(y_r);
@@ -545,7 +546,8 @@ extern "C" {
 
         nThreads_nngp = INTEGER(nThreads_r)[0];
         int verbose = INTEGER(verbose_r)[0];
-
+        
+        printf("\nStartOfBRISC_estimatecpp1\n");
 
 
 #ifdef _OPENMP
@@ -558,6 +560,7 @@ extern "C" {
 #endif
 
         if(verbose){
+          printf("\nStartOfBRISC_estimatecpp2\n");
             Rprintf("----------------------------------------\n");
             Rprintf("\tModel description\n");
             Rprintf("----------------------------------------\n");

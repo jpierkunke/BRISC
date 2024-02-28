@@ -7,3 +7,6 @@ src/*.so
 src/*.dll
 .Rbuildignore
 BRISC.Rproj
+config.log
+config.status
+.DS_Store
