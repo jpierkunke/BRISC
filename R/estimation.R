@@ -173,12 +173,12 @@ Please check the new documentation with ?BRISC_estimation.')
 
 # version that handles covariance based on stream distances
 # new function inputs:
-#  - cov.model.tailup, sigma.sq.tu, phi.tu
-#  - cov.model.taildn, sigma.sq.td, phi.td
+#  - cov.model.tu, sigma.sq.tu, phi.tu
+#  - cov.model.td, sigma.sq.td, phi.td
 BRISC_estimation_s <- function(coords, y, x = NULL, sigma.sq = 1, tau.sq = 0.1, phi = 1, nu = 1.5, 
                                sigma.sq.tu = 1, phi.tu = 1, sigma.sq.td = 1, phi.td = 1,
                                n.neighbors = 15, n_omp = 1, order = "Sum_coords",cov.model = "exponential",
-                               cov.model.tailup = "exponential", cov.model.taildn = "exponential",
+                               cov.model.tu = "exponential", cov.model.td = "exponential",
                                search.type = "tree", stabilization = NULL,
                                pred.stabilization = 1e-8, verbose = TRUE, eps = 2e-05, nugget_status = 1, tol = 12
 ){
@@ -217,6 +217,10 @@ Please check the new documentation with ?BRISC_estimation.')
   if(sigma.sq < 0 ){stop("error: sigma.sq must be non-negative")}
   if(phi < 0 ){stop("error: phi must be non-negative")}
   if(nu < 0 ){stop("error: nu must be non-negative")}
+  if(sigma.sq.tu < 0 ){stop("error: sigma.sq.tu must be non-negative")}
+  if(phi.tu < 0 ){stop("error: phi.tu must be non-negative")}
+  if(sigma.sq.td < 0 ){stop("error: sigma.sq.td must be non-negative")}
+  if(phi.td < 0 ){stop("error: phi.td must be non-negative")}
 
   if(verbose == TRUE){
     cat(paste(("----------------------------------------"), collapse="   "), "\n"); cat(paste(("\tOrdering Coordinates"), collapse="   "), "\n")
@@ -235,21 +239,27 @@ Please check the new documentation with ?BRISC_estimation.')
   cov.model.names <- c("exponential","spherical","matern","gaussian")
   cov.model.indx <- which(cov.model == cov.model.names) - 1
   storage.mode(cov.model.indx) <- "integer"
+  ## Covariance model for streams
+  cov.model.names.s <- c("exponential","linear-with-sill","spherical","mariah","epanechnikov")
+  cov.model.indx.tu <- which(cov.model.tu == cov.model.names.s) - 1
+  storage.mode(cov.model.indx.tu) <- "integer"
+  cov.model.indx.td <- which(cov.model.td == cov.model.names.s) - 1
+  storage.mode(cov.model.indx.td) <- "integer"
 
 
   ##Stabilization
   if(is.null(stabilization)){
-    if(cov.model == "exponential"){
+    if(cov.model == "exponential" & cov.model.tu == "exponential" & cov.model.td == "exponential"){
       stabilization = FALSE
     }
-    if(cov.model != "exponential"){
+    else{
       stabilization = TRUE
     }
   }
 
   if(!isTRUE(stabilization)){
-    if(cov.model != "exponential"){
-      warning('We recommend using stabilization for spherical, Matern and Gaussian covariance model')
+    if(cov.model != "exponential" | cov.model.tu != "exponential" | cov.model.td != "exponential"){
+      warning('We recommend using stabilization if any of the covariance components is not exponential')
     }
   }
 
