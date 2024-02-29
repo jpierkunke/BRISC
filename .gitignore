@@ -10,3 +10,4 @@ BRISC.Rproj
 config.log
 config.status
 .DS_Store
+src/.Rapp.history
