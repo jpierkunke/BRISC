@@ -182,6 +182,7 @@ BRISC_estimation_s <- function(coords, y, x = NULL, sigma.sq = 1, tau.sq = 0.1, 
                                search.type = "tree", stabilization = NULL,
                                pred.stabilization = 1e-8, verbose = TRUE, eps = 2e-05, nugget_status = 1, tol = 12
 ){
+  cat(paste(("BRISC for Streams"), collapse="   "), "\n")
   n <- nrow(coords)
   if(is.null(x)){
     x <- matrix(1, nrow = n, ncol = 1)
@@ -285,6 +286,10 @@ Please check the new documentation with ?BRISC_estimation.')
   alpha.sq.starting <- sqrt(tau.sq/sigma.sq)
   phi.starting <- sqrt(phi)
   nu.starting <- sqrt(nu)
+  alpha.sq.starting.tu <- sqrt(tau.sq/sigma.sq.tu)
+  phi.starting.tu <- sqrt(phi.tu)
+  alpha.sq.starting.td <- sqrt(tau.sq/sigma.sq.td)
+  phi.starting.td <- sqrt(phi.td)
 
   storage.mode(alpha.sq.starting) <- "double"
   storage.mode(phi.starting) <- "double"
@@ -322,8 +327,13 @@ Please check the new documentation with ?BRISC_estimation.')
   if(nugget_status == 0){alpha.sq.starting = 0}
 
 
-  ##estimtion
-  result <- .Call("BRISC_estimatecpp", y, X, p, n, n.neighbors, coords, cov.model.indx, alpha.sq.starting, phi.starting, nu.starting, search.type.indx, n.omp.threads, verbose, eps, fix_nugget, PACKAGE = "BRISC")
+  ##estimation
+  result <- .Call("BRISC_estimatecpp_s", y, X, p, n, n.neighbors, coords,
+                  cov.model.indx, cov.model.indx.tu, cov.model.indx.td,
+                  alpha.sq.starting, phi.starting, nu.starting,
+                  alpha.sq.starting.tu, phi.starting.tu,
+                  alpha.sq.starting.td, phi.starting.td,
+                  search.type.indx, n.omp.threads, verbose, eps, fix_nugget, PACKAGE = "BRISC")
 
   p2 <- proc.time()
 
