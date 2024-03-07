@@ -177,7 +177,7 @@ Please check the new documentation with ?BRISC_estimation.')
 #  - cov.model.td, sigma.sq.td, phi.td
 BRISC_estimation_s <- function(coords, y, x = NULL, sigma.sq = 1, tau.sq = 0.1, phi = 1, nu = 1.5, 
                                sigma.sq.tu = 1, phi.tu = 1, sigma.sq.td = 1, phi.td = 1,
-                               n.neighbors = 15, n_omp = 1, order = "Sum_coords",cov.model = "exponential",
+                               n.neighbors = 15, n_omp = 1, order = "Sum_coords", cov.model = "exponential",
                                cov.model.tu = "exponential", cov.model.td = "exponential",
                                search.type = "tree", stabilization = NULL,
                                pred.stabilization = 1e-8, verbose = TRUE, eps = 2e-05, nugget_status = 1, tol = 12
@@ -241,7 +241,7 @@ Please check the new documentation with ?BRISC_estimation.')
   cov.model.indx <- which(cov.model == cov.model.names) - 1
   storage.mode(cov.model.indx) <- "integer"
   ## Covariance model for streams
-  cov.model.names.s <- c("exponential","linear-with-sill","spherical","mariah","epanechnikov")
+  cov.model.names.s <- c("exponential","spherical","linear-with-sill","mariah","epanechnikov")
   cov.model.indx.tu <- which(cov.model.tu == cov.model.names.s) - 1
   storage.mode(cov.model.indx.tu) <- "integer"
   cov.model.indx.td <- which(cov.model.td == cov.model.names.s) - 1
