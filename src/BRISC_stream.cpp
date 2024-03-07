@@ -525,11 +525,13 @@ extern "C" {
 
 
 
-    SEXP BRISC_estimatecpp(SEXP y_r, SEXP X_r, SEXP p_r, SEXP n_r, SEXP m_r, SEXP coords_r, SEXP covModel_r, SEXP alphaSqStarting_r, SEXP phiStarting_r, SEXP nuStarting_r,
+    SEXP BRISC_estimatecpp_s(SEXP y_r, SEXP X_r, SEXP p_r, SEXP n_r, SEXP m_r, SEXP coords_r, SEXP covModel_r,
+                           SEXP covModel_tu_r, SEXP covModel_td_r,
+                           SEXP alphaSqStarting_r, SEXP phiStarting_r, SEXP nuStarting_r,
+                           SEXP alphaSqStarting_tu_r, SEXP phiStarting_tu_r, SEXP alphaSqStarting_td_r, SEXP phiStarting_td_r,
                            SEXP sType_r, SEXP nThreads_r, SEXP verbose_r, SEXP eps_r, SEXP fix_nugget_r){
 
         int i, k, l, nProtect=0;
-        printf("\nStartOfBRISC_estimatecpp\n");
 
         //get args
         y_nngp = REAL(y_r);

@@ -85,6 +85,24 @@ std::string getCorName(int i){
 
 }
 
+std::string getCorName_s(int i){
+  
+  if(i == 0){
+    return "exponential";
+  }else if(i == 1){
+    return "spherical";
+  }else if(i == 2){
+    return "linear-with-sill";
+  }else if(i == 3){
+    return "mariah";
+  }else if(i == 4){
+    return "epanechnikov";
+  }else{
+    error("c++ error: tail-up or tail-down stream cov.model is not correctly specified");
+  }
+  
+}
+
 double spCor(double &D, double &phi, double &nu, int &covModel, double *bk){
 
   //0 exponential
